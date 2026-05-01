@@ -1,0 +1,21 @@
+# Ren'Py specific ignores
+*.rpyc
+*.rpyb
+*.rpa
+
+# Cache and temporary folders
+cache/
+tmp/
+
+# Save files
+saves/
+*.save
+
+# Logs and error files
+log.txt
+errors.txt
+traceback.txt
+
+# OS File System
+.DS_Store
+Thumbs.db

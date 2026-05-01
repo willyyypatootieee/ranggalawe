@@ -1,0 +1,6 @@
+image nasir angry = "nasir_angry.png"
+image nasir happy = "nasir_happy.png"
+image nasir idle = "nasir_idle.png"
+image nasir sad = "nasir_sad.png"
+# image nasir surprised = "nasir_surprised.png"
+# image nasir ngocok =  "nasir_ngocok.png"
