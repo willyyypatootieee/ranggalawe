@@ -3,6 +3,45 @@ image nasir happy = "nasir_happy.png"
 image nasir idle = "nasir_idle.png"
 image nasir sad = "nasir_sad.png"
 
+# Game Assets
+image blackscreen = Solid("#000")
+image arya = Transform("arya ambigu", zoom=0.55, yalign=1.0) # default if 'arya' is used without tags
+image arya ambigu = Transform("images/arya/arya ambigu.png", zoom=0.55, yalign=1.0)
+image arya bangga = Transform("images/arya/arya bangga.png", zoom=0.55, yalign=1.0)
+image arya bijak = Transform("images/arya/arya bijak.png", zoom=0.55, yalign=1.0)
+image arya khawatir = Transform("images/arya/arya khawatir.png", zoom=0.55, yalign=1.0)
+image arya serius = Transform("images/arya/arya serius.png", zoom=0.55, yalign=1.0)
+
+image raden_k berathati = Transform("images/raden_k/raden_k berathati.png", zoom=0.55, yalign=1.0)
+image raden_k berwibawa = Transform("images/raden_k/raden_k berwibawa.png", zoom=0.55, yalign=1.0)
+image raden_k ragu = Transform("images/raden_k/raden_k ragu.png", zoom=0.55, yalign=1.0)
+image raden_k tegas = Transform("images/raden_k/raden_k tegas.png", zoom=0.55, yalign=1.0)
+
+image raden_p berwibawa = Transform("images/raden_p/raden_p berwibawa.png", zoom=0.55, yalign=1.0)
+image raden_p lelah = Transform("images/raden_p/raden_p lelah.png", zoom=0.55, yalign=1.0)
+image raden_p tulus = Transform("images/raden_p/raden_p tulus.png", zoom=0.55, yalign=1.0)
+image raden_p waspada = Transform("images/raden_p/raden_p waspada.png", zoom=0.55, yalign=1.0)
+
+image ranggalawe angry = Transform("images/ranggalawe/ranggalawe angry.png", zoom=0.55, yalign=1.0)
+image ranggalawe determination = Transform("images/ranggalawe/ranggalawe determination.png", zoom=0.55, yalign=1.0)
+image ranggalawe happy = Transform("images/ranggalawe/ranggalawe happy.png", zoom=0.55, yalign=1.0)
+image ranggalawe neutral = Transform("images/ranggalawe/ranggalawe neutral.png", zoom=0.55, yalign=1.0)
+image ranggalawe sad = Transform("images/ranggalawe/ranggalawe sad.png", zoom=0.55, yalign=1.0)
+image ranggalawe shock = Transform("images/ranggalawe/ranggalawe shock.png", zoom=0.55, yalign=1.0)
+image ranggalawe terluka = Transform("images/ranggalawe/ranggalawe terluka.png", zoom=0.55, yalign=1.0)
+image ranggalawe = Transform("ranggalawe neutral", zoom=0.55, yalign=1.0)
+
+# Declare characters used by this game.
+define ranggalawe = Character("Ken Kara / Ranggalawe", color="#c8ffc8")
+define arya = Character("Arya Wiraraja", color="#ffc8c8")
+define raden = Character("Raden Wijaya", color="#ffffc8")
+define lembu = Character("Lembu Sora", color="#c8c8ff")
+define nambi = Character("Nambi", color="#ffc8ff")
+define kebo = Character("Kebo Anabrang", color="#c8ffff")
+define sembada = Character("Nyai Sembada", color="#ffd5c8")
+define komandan = Character("Komandan Garda", color="#c8ffd5")
+define narrator = Character(None, what_italic=True)
+
 # Kebo Anabrang
 image kebo mati = Transform("images/Kebo Anabrang/2VN-SP-07_mati.png", zoom=0.55, yalign=1.0)
 image kebo dingin = Transform("images/Kebo Anabrang/VN-SP-07_dingin.png", zoom=0.55, yalign=1.0)
