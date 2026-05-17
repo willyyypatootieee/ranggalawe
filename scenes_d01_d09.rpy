@@ -4,7 +4,8 @@
 # ==========================================
 label scene_d01:
     # Aset placeholder
-    scene bg 02 with fade
+    scene bg 02:
+        fit "cover"
     # play music "placeholder_bgm_02.ogg" loop fadein 1.0
     # TODO: Ganti musik placeholder dengan aset BGM asli
     
@@ -75,7 +76,7 @@ label d01_jalur_c:
     scene bg 02 with fade
     # TODO: Tambahkan aset cutscene
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "[[CUTSCENE] INT. Ruang Dalam Pendopo - Malam.\nPeta jaringan dan siasat ganda digelar di atas meja."
+    narrator "[[CUTSCENE] INT. Ruang Dalam Pendopo - Malam.\nPeta jaringan dan siasat ganda terbentang di atas meja. Garis-garis strategi saling bersilangan — menandakan permainan yang jauh lebih berbahaya daripada perang biasa."
     return
 
 # ==========================================
@@ -249,6 +250,9 @@ label scene_d06:
 # ==========================================
 # SCENE D07 - SUB-ARC MADURA (EKSKLUSIF HASIL D01)
 # ==========================================
+
+
+// todo next. 
 label scene_d07:
     if d01_choice == "A":
         scene bg 03 with fade
