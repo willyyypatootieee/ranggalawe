@@ -4,14 +4,17 @@
 # ==========================================
 label scene_d01:
     # Aset placeholder
-    scene bg 02:
-        fit "cover"
-    # play music "placeholder_bgm_02.ogg" loop fadein 1.0
-    # TODO: Ganti musik placeholder dengan aset BGM asli
+    scene expression Movie(play="video/scene1_1.webm", mute=True, size=(1920, 1080)) with fade
+
+    # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene1_2.mp3" 
+    narrator "Singhasari, 1292 M. Prabu Kertanegara gugur di tangan Jayakatwang dari Kediri."
     
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "Singhasari, 1292 M. Prabu Kertanegara gugur di tangan Jayakatwang dari Kediri."
-    # TODO: Tambahkan Voice Over (VO) narrator
+    scene expression Movie(play="video/scene1_1.webm", mute=True, size=(1920, 1080)) with fade
+
+    voice "audio/scene1_3.mp3" 
+
     narrator "Raden Wijaya melarikan diri. Di Sumenep, Madura - seorang ayah menunggu putranya menyampaikan berita yang mengubah segala-galanya."
 
     show arya serius at center with dissolve
@@ -19,6 +22,8 @@ label scene_d01:
     arya "Ini bukan waktunya menangis. Ini waktunya memilih."
     
     # TODO: Tambahkan Voice Over (VO) narrator
+
+    voice "audio/scene1_4.mp3"
     narrator "[[Batin Ken Kara] Ayah tidak pernah berbicara seperti ini sebelumnya. Ada yang bergetar di dadaku - entah ketakutan, entah kegembiraan..."
 
     # Pilihan Pemain - Titik Percabangan Utama D01
@@ -55,6 +60,7 @@ label d01_jalur_a:
     # Aset BG asli: BG-01 (Pendopo Sumenep Eksterior - Jalan Malam) sudah dipasang.
     scene expression Movie(play="video/berangkat.webm", size=(1920, 1080)) with fade
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene1a.mp3"
     narrator "Ken Kara berangkat sendiri, hanya membawa pedang dan bekal seadanya. Silhuetnya hilang dalam kegelapan."
     return
 
@@ -66,7 +72,8 @@ label d01_jalur_b:
     # Aset BG asli: BG-01 (Pendopo Sumenep Eksterior - Pagi) sudah dipasang.
     # TODO: Tambahkan aset cutscene
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "[[CUTSCENE] EXT. Halaman Pendopo - Pagi.\n200 prajurit berjejer. Ken Kara memimpin di depan. Terdengar irama genderang ringan."
+    voice "audio/scene2a.mp3"
+    narrator "200 prajurit berjejer. Ken Kara memimpin di depan. Terdengar irama genderang ringan."
     return
 
 label d01_jalur_c:
@@ -76,6 +83,7 @@ label d01_jalur_c:
     scene bg 02 with fade
     # TODO: Tambahkan aset cutscene
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene3a.mp3"
     narrator "[[CUTSCENE] INT. Ruang Dalam Pendopo - Malam.\nPeta jaringan dan siasat ganda terbentang di atas meja. Garis-garis strategi saling bersilangan — menandakan permainan yang jauh lebih berbahaya daripada perang biasa."
     return
 
@@ -87,21 +95,26 @@ label scene_d02:
     # TODO: Gunakan aset BG asli: BG-02 & BG-05 (Split Screen)
     
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene5.mp3"
     narrator "SCENE D02 (PARALLEL): Dua dunia bergerak bersamaan. Satu di balik meja dengan surat dan siasat. Satu lagi di jalan panjang dengan pedang dan tekad."
     
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene6.mp3"
     narrator "[[LAYAR KIRI] Wiraraja menulis dua surat sekaligus. Satu untuk Raden Wijaya, satu untuk Jayakatwang."
     show arya khawatir at left with dissolve
     arya "Maafkan anakku, Jayakatwang. Ini bukan pengkhianatan. Ini... politik."
     
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene7.mp3"
     narrator "[[LAYAR KANAN] Ken Kara melangkah di jalannya..."
 
     if siasat > 0:
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene8.mp3"
         narrator "Bermain dua wajah terasa merendahkan harga diri ksatria. Tapi tanpa siasat, perlawanan terbuka berarti kematian sia-sia. Aku percaya ayahku."
     else:
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene9.mp3"
         narrator "Langkahku mantap menuju takdir yang belum selesai."
 
     return
@@ -116,16 +129,20 @@ label scene_d03:
     if d01_choice == "A":
         # TODO: Tambahkan aset cutscene
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene10.mp3"
         narrator "[[CUTSCENE] Raden Wijaya memeluk Ken Kara. 'Kamu datang sendiri, tanpa diminta. Itulah keberanian yang Majapahit butuhkan.'"
     elif d01_choice == "B":
         # TODO: Tambahkan aset cutscene
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene11.mp3"
         narrator "[[CUTSCENE] Raden Wijaya meninjau 200 prajurit. 'Kamu tidak hanya membawa dirimu. Kamu membawa Madura.'"
     elif d01_choice == "C":
         # TODO: Tambahkan aset cutscene
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene12.mp3"
         narrator "[[CUTSCENE] Raden Wijaya berbisik. 'Wiraraja bilang kamu sudah tahu semuanya. Aku butuh orang seperti itu di dekatku.'"
 
+    voice "audio/scene13.mp3"
     raden "Mulai hari ini, kamu kupanggil Ranggalawe - ia yang boleh memerintah anak buahku. Nama ini bukan hadiah. Ini tanggung jawab."
 
     menu:
@@ -157,6 +174,7 @@ label scene_d04:
     scene bg 07 with fade
     # TODO: Gunakan aset BG asli: BG-07 (Kamp Hutan Tarik - Malam)
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene14.mp3"
     narrator "Malam pertama di Hutan Tarik. Ada satu malam untuk berkenalan dengan orang-orang yang akan mewarnai perjalanannya."
 
     menu:
@@ -175,6 +193,7 @@ label scene_d04:
             $ kebijakan += 10
             $ kehormatan -= 5
             # TODO: Tambahkan Voice Over (VO) narrator
+            voice "audio/scene15.mp3"
             narrator "Kamu mengamati Nambi lekat-lekat dari bayangan, mencari kelemahannya."
 
         "[[Ajak Kebo Anabrang latihan fisik] Ayo, seberapa baik pendekar Majapahit bertarung. (Konfrontasi)":
@@ -188,6 +207,8 @@ label scene_d04:
 
         "Lewati malam dan istirahat.":
             # TODO: Tambahkan Voice Over (VO) narrator
+            voice "audio/scene16.mp3"
+
             narrator "Kamu memilih istirahat demi menyimpan tenaga."
             
     return
@@ -199,6 +220,7 @@ label scene_d05:
     scene bg 06 with fade
     # TODO: Gunakan aset BG asli: BG-06 (Kamp Hutan Tarik - Siang)
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene17.mp3"
     narrator "Rapat strategi. Wiraraja menguraikan rencana: berpura-pura tunduk kepada Jayakatwang dan masuk ke Kediri sebagai 'pengabdi'."
     
     menu:
@@ -207,6 +229,7 @@ label scene_d05:
             $ kebijakan += 10
             $ keberanian += 5
             # TODO: Tambahkan Voice Over (VO) narrator
+            voice "audio/scene18.mp3"
             narrator "Kamu mengajukan diri sebagai garda terdepan utusan pura-pura ini."
 
         "Hamba minta jaminan keamanan Hutan Tarik selama hamba pergi. (Mediasi)":
@@ -214,6 +237,7 @@ label scene_d05:
             $ kehormatan += 10
             $ kebijakan += 15
             # TODO: Tambahkan Voice Over (VO) narrator
+            voice "audio/scene19.mp3"
             narrator "Kamu menetapkan syarat rasional demi keselamatan pasukan."
 
         "Izinkan hamba ikut langsung ke Kediri mengantisipasi dari dalam. (Siasat)":
@@ -222,6 +246,7 @@ label scene_d05:
             $ keberanian += 10
             $ kebijakan -= 5
             # TODO: Tambahkan Voice Over (VO) narrator
+            voice "audio/scene20.mp3"
             narrator "Kamu mencari posisi strategis di pusat intrik musuh."
 
     return
@@ -233,16 +258,20 @@ label scene_d06:
     scene bg 08 with fade
     # TODO: Gunakan aset BG asli: BG-08 (Kediri - Alun-alun) / BG-09 (Kediri - Dalam Istana)
     # TODO: Tambahkan Voice Over (VO) narrator
+    voice "audio/scene21.mp3"
     narrator "Berminggu-minggu bersandiwara di Kediri. Tunduk, menghormati, sambil menyiapkan kejatuhan musuh."
     
     if siasat > 0:
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene22.mp3"
         narrator "[[Batin] Aku mengamati mereka dengan kalkulasi... dan Nambi selalu dekat dengan kekuasaan tanpa harus berkeringat sepertiku."
     elif konfrontasi > 0:
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene23.mp3"
         narrator "[[Batin] Sandiwara ini membuatku muak. Aku tak sabar menarik pedang, apalagi saat melihat mereka percaya begitu saja pada Nambi yang tak teruji."
     else:
         # TODO: Tambahkan Voice Over (VO) narrator
+        voice "audio/scene24.mp3"
         narrator "[[Batin] Nambi mendapat kepercayaan luar biasa. Mungkinkah ada logika diplomasi darinya yang belum kupahami?"
         
     return
@@ -252,7 +281,6 @@ label scene_d06:
 # ==========================================
 
 
-// todo next. 
 label scene_d07:
     if d01_choice == "A":
         scene bg 03 with fade
