@@ -4,6 +4,7 @@
 
 label scene_d10:
     scene blackscreen with fade
+    scene bg_17
     # TODO: Gunakan aset BG asli: BG-17 (Medan Perang Tuban, Jongbiru)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D10 - Pertempuran di Jongbiru. (Placeholder: BG-17, BGM-07)"
@@ -39,12 +40,14 @@ label scene_d10:
 
 label scene_d11:
     scene blackscreen with fade
+    scene bg_08
     # TODO: Gunakan aset BG asli: BG-08 / BG-09 (Kediri)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D11 - Kediri jatuh. (Bottleneck sejarah)"
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "Jayakatwang menyerah. Majapahit lahir dari abu kemenangan ini."
 
+    show lembu penuhkasih
     lembu "Kita menang, keponakanku."
 
     if konfrontasi >= mediasi and konfrontasi >= siasat:
@@ -64,6 +67,7 @@ label scene_d11:
 
 label scene_d12:
     scene blackscreen with fade
+    scene bg_15
     # TODO: Gunakan aset BG asli: BG-15 (Trowulan - Balai Sidang)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D12 - Siasat mengusir Tartar. (Placeholder: BG-15, BGM-06)"
@@ -99,6 +103,7 @@ label scene_d12:
 
 label scene_d13:
     scene blackscreen with fade
+    scene bg_14
     # TODO: Gunakan aset BG asli: BG-14 (Trowulan - Istana Majapahit)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D13 - Tartar terusir. Majapahit merdeka. (Bottleneck sejarah)"
@@ -109,6 +114,7 @@ label scene_d13:
 
 label scene_d14:
     scene blackscreen with fade
+    scene bg_15
     # TODO: Gunakan aset BG asli: BG-15 (Trowulan - Balai Sidang)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D14 - Konsekuensi cara mengusir Tartar. (Informatif)"

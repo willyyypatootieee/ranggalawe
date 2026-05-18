@@ -4,6 +4,7 @@
 
 label scene_d15:
     scene blackscreen with fade
+    scene bg_11
     # TODO: Gunakan aset BG asli: BG-11 (Kadipaten Tuban Pendopo) / BG-12 (Pasar Tuban)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D15 - Kehidupan sebagai Adipati Tuban. (Opsional; bisa skip)"
@@ -45,6 +46,7 @@ label scene_d15:
 
 label scene_d16:
     scene blackscreen with fade
+    scene bg_10
     # TODO: Gunakan aset BG asli: BG-10 (Pelabuhan Tuban)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D16 - Nambi diangkat sebagai Patih Amangkubumi. (Bottleneck/W-merge)"
@@ -70,6 +72,7 @@ label scene_d16:
 
 label scene_d17:
     scene blackscreen with fade
+    scene bg_15
     # TODO: Gunakan aset BG asli: BG-15 (Trowulan - Balai Sidang)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D17 - Api dalam dada: respons pertama. (W-shape split)"
@@ -94,6 +97,7 @@ label scene_d17:
 
 label d17_a_exclusive:
     scene blackscreen with fade
+    scene bg_15
     # TODO: Gunakan aset BG asli: BG-15 (Trowulan - Balai Sidang)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "[[EKSKLUSIF A] Balai sidang Trowulan. Mahapati tampak di latar."
@@ -114,6 +118,7 @@ label d17_b_exclusive:
     # TODO: Gunakan aset BG asli: BG-11 (Kadipaten Tuban Pendopo)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "[[EKSKLUSIF B] Pendopo Tuban. Malam. Nambi datang tanpa pengawal."
+    show nambi ambigu
     nambi "Aku tidak datang sebagai Patih. Aku terjebak juga. Mahapati yang mengusulkan namaku."
 
     menu:
@@ -147,6 +152,7 @@ label d17_b_exclusive:
 
 label d17_c_exclusive:
     scene blackscreen with fade
+    scene bg_13
     # TODO: Gunakan aset BG asli: BG-13 (Pegunungan Utara Tuban)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "[[EKSKLUSIF C] Pegunungan utara Tuban. Ada kebocoran. Ra Galatik mata-mata Mahapati."
@@ -185,6 +191,7 @@ label scene_d18:
     # TODO: Gunakan aset BG asli: BG-11 & BG-15 (Split Screen)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D18 - Malam yang membelah. (Parallel)"
+    show lembu penuhkasih
     lembu "Masih ada jalan damai, keponakanku."
     ranggalawe "Kita sudah melewati batas itu, Paman. Yang tersisa hanya cara kita berdiri di hadapannya."
     # TODO: Tambahkan Voice Over (VO) narrator
@@ -193,6 +200,7 @@ label scene_d18:
 
 label scene_d19:
     scene blackscreen with fade
+    scene bg_11
     # TODO: Gunakan aset BG asli: BG-11 (Kadipaten Tuban Pendopo)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D19 - Ultimatum dari Trowulan."
@@ -230,6 +238,7 @@ label scene_d20:
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D20 - Perang tidak bisa dihindari."
 
+    show lembu sedih
     lembu "Keponakanku... aku sudah coba semua jalan yang aku tahu."
 
     if konfrontasi >= mediasi and konfrontasi >= siasat:
@@ -267,6 +276,7 @@ label scene_d20:
 
 label scene_d21:
     scene blackscreen with fade
+    scene bg_11
     # TODO: Gunakan aset BG asli: BG-11 (Kadipaten Tuban Pendopo)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D21 - Strategi pertahanan Tuban."
@@ -305,6 +315,7 @@ label scene_d21:
 
 label scene_d22:
     scene blackscreen with fade
+    scene bg_17
     # TODO: Gunakan aset BG asli: BG-17 (Medan Perang Tuban)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D22 - Wajah yang dikenal di garis musuh."

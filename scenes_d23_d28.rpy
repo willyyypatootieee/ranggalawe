@@ -71,6 +71,7 @@ label scene_d25:
         ranggalawe "Simpan. Sebagai pengingat."
         $ kehormatan += 5
 
+    show lembu lelah
     lembu "Keponakanku. Masih belum terlambat."
 
     menu:
@@ -106,6 +107,7 @@ label scene_d26:
     # TODO: Gunakan aset BG asli: BG-19 (Sungai Tambak Beras - Senja Merah)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D26 - Di tepi Sungai Tambak Beras."
+    show kebo tegas
     kebo "Ranggalawe! Masuk ke air. Selesaikan ini seperti ksatria."
 
     if d04_choice == "C" and kehormatan >= 7:
