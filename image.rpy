@@ -40,6 +40,7 @@ define nambi = Character("Nambi", color="#ffc8ff")
 define kebo = Character("Kebo Anabrang", color="#c8ffff")
 define sembada = Character("Nyai Sembada", color="#ffd5c8")
 define komandan = Character("Komandan Garda", color="#c8ffd5")
+define mahapati = Character("Mahapati", color="#e8c87a")
 define narrator = Character(None, what_italic=True)
 
 # Kebo Anabrang
@@ -90,3 +91,7 @@ image bg_12 = "images/bg/bg 12.jpg"
 image bg_13 = "images/bg/bg 13.jpg"
 image bg_14 = "images/bg/bg 14.jpg"
 image bg_15 = "images/bg/bg 15.jpg"
+image bg_split   = "images/bg/split.jpeg"
+image bg_17      = "images/bg/write.jpeg"
+image bg_writing = "images/bg/writing.jpeg"
+
