@@ -99,6 +99,7 @@ screen say(who, what):
 
     window:
         id "window"
+        at say_window_anim
 
         if who is not None:
 
@@ -206,10 +207,37 @@ style input:
 
 screen choice(items):
     style_prefix "choice"
+    default hovered_hint = ""
 
     vbox:
-        for i in items:
-            textbutton i.caption action i.action
+        for i, item in enumerate(items):
+            button:
+                style "choice_button"
+                action item.action
+                hovered SetScreenVariable("hovered_hint", _choice_hint(item.caption))
+                unhovered SetScreenVariable("hovered_hint", "")
+                at choice_slide_in(i * 0.09)
+                hbox:
+                    spacing 12
+                    yalign 0.5
+                    text "›":
+                        style "choice_button_text"
+                        color "#f39c12"
+                        size 28
+                        yalign 0.5
+                    text item.caption:
+                        style "choice_button_text"
+                        yalign 0.5
+
+    if hovered_hint:
+        frame:
+            xalign 0.5
+            yalign 0.85
+            background Solid("#080f1eE6")
+            padding (32, 12)
+            at _hint_fade_in
+            text hovered_hint:
+                size 20 color "#f1c40f" italic True xalign 0.5
 
 
 style choice_vbox is vbox
@@ -253,7 +281,25 @@ screen quick_menu():
             textbutton _("Save") action ShowMenu('save')
             textbutton _("Q.Save") action QuickSave()
             textbutton _("Q.Load") action QuickLoad()
+            textbutton _("Stats") action ToggleField(persistent, "show_hud")
+            textbutton _("Radar") action ShowMenu('radar_chart')
+            textbutton _("Relasi") action ShowMenu('relationship_tracker')
+            textbutton _("Kamus") action ShowMenu('kamus')
+            textbutton _("Jurnal") action ShowMenu('journal')
+            textbutton _("Peta") action ShowMenu('peta')
+            textbutton _("Waktu") action ShowMenu('timeline')
+            textbutton _("Galeri") action ShowMenu('gallery')
+            textbutton _("Kodeks") action ShowMenu('kodeks')
             textbutton _("Prefs") action ShowMenu('preferences')
+
+        ## Keyboard shortcuts for new screens
+        key "k" action ShowMenu('kamus')
+        key "j" action ShowMenu('journal')
+        key "p" action ShowMenu('peta')
+        key "t" action ShowMenu('timeline')
+        key "a" action ShowMenu('kodeks')
+        key "r" action ShowMenu('relationship_tracker')
+        key "g" action ShowMenu('gallery')
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
