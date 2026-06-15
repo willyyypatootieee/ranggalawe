@@ -6,34 +6,55 @@ label scene_d29:
     if not dokumen_hukum:
         return
 
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Tuban")
+    call screen chapter_activity_hub("FASE WARISAN", "Cek jurnal, kamus, dan relasi sebelum menutup kisah Tuban.")
+    call screen d29_legacy_council
+    $ d29_focus = _return.focus
+    scene warisan:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-11 (Kadipaten Tuban Pendopo)
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "SCENE D29 - Dokumen Sima: kemenangan setelah kematian. (Opsional)"
+    narrator "Dokumen Sima: kemenangan setelah kematian."
+    $ add_journal("D29", "Kamu menentukan bagaimana warisan Tuban akan diingat.")
+
+    if d29_focus == "law":
+        $ kehormatan += 10
+        $ add_journal("D29", "Warisan Tuban diarahkan lewat hukum dan legitimasi.")
+    elif d29_focus == "people":
+        $ loyalitas_rakyat += 10
+        $ add_journal("D29", "Warisan Tuban diarahkan lewat rakyat dan ingatan kolektif.")
+    else:
+        $ kehormatan += 5
+        $ add_journal("D29", "Warisan Tuban diarahkan lewat nama yang bertahan di lisan.")
 
     menu:
         "Kirim dokumen Sima ke Kertarajasa.":
             $ d29_choice = "A"
             $ kehormatan += 20
+            $ add_journal("D29", "Dokumen Sima dikirim ke Kertarajasa.")
             # TODO: Tambahkan Voice Over (VO) narrator
             narrator "Tuban diakui sebagai Sima—tiga bulan kemudian."
 
-        "Simpan untuk putra Ranggalawe.":
+        "Simpan untuk putra {a=call:show_ensik_ranggalawe}Ranggalawe{/a}.":
             $ d29_choice = "B"
+            $ add_journal("D29", "Dokumen Sima disimpan sebagai warisan untuk putranya.")
             # TODO: Tambahkan Voice Over (VO) narrator
             narrator "Warisan jadi pegangan Kuda Anjampiani."
 
     return
 
 label scene_d30:
-    scene blackscreen with fade
-    # TODO: Gunakan aset BG asli: BG-20 (Makam Ranggalawe)
-    # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "SCENE D30 - Lembu Sora menghadapi diri sendiri."
+    show screen scene_header("1295 M", "Makam Ranggalawe")
+    scene makam:
+        xysize(1920,1080)
+    with fade
+    narrator "Lembu Sora menghadapi diri sendiri."
+    $ add_journal("D30", "Lembu Sora berhadapan dengan rasa bersalah di makam Ranggalawe.")
 
     if d25_choice == "A":
         # TODO: Tambahkan Voice Over (VO) narrator
-        narrator "Lembu Sora hidup dalam rasa bersalah. Kelak ia memberontak juga—korban sistem yang sama."
+        narrator "{a=call:show_ensik_lembu_sora}Lembu Sora{/a} hidup dalam rasa bersalah. Kelak ia memberontak juga—korban sistem yang sama."
     elif d25_choice == "B":
         # TODO: Tambahkan Voice Over (VO) narrator
         narrator "Lembu Sora membawa beban tak terampuni sampai akhir."
@@ -47,50 +68,67 @@ label scene_d30:
     return
 
 label scene_d31:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Trowulan")
+    scene mahapati:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-16 (Trowulan Kediaman Mahapati)
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "SCENE D31 - Mahapati dan warisan intrik. (Opsional)"
+    narrator "Mahapati dan warisan intrik. (Opsional)"
+    $ add_journal("D31", "Mahapati memperlihatkan bagaimana intrik bisa menelan orang yang paling licin sekalipun.")
 
     if mahapati_letter_given:
         # TODO: Tambahkan Voice Over (VO) narrator
-        narrator "Surat gelap itu akhirnya dipakai. Mahapati menghilang dari istana."
+        narrator "Surat gelap itu akhirnya dipakai. {a=call:show_ensik_mahapati}Mahapati{/a} menghilang dari istana."
     else:
         # TODO: Tambahkan Voice Over (VO) narrator
-        narrator "Mahapati pun disingkirkan oleh intrik—seperti yang ia lakukan pada orang lain."
+        narrator "{a=call:show_ensik_mahapati}Mahapati{/a} pun disingkirkan oleh intrik—seperti yang ia lakukan pada orang lain."
 
     return
 
 label scene_d32:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Dua Tafsir")
+    scene split2:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-14 & BG-20 (Split Screen)
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "SCENE D32 - Sesudah Ranggalawe: dua versi sejarah. (Parallel)"
+    narrator "Sesudah Ranggalawe: dua versi sejarah."
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "Versi kerajaan: pemberontak. Versi Tuban: pahlawan. Keduanya benar sekaligus."
+    $ add_journal("D32", "Sejarah Tuban dan kerajaan berpisah dalam tafsir yang sama kuatnya.")
     return
 
 label scene_d33:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Status Akhir")
+    scene makam:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: VN-UI-06 (Relationship Meter) / UI-10
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "SCENE D33 - Status hubungan akhir (ringkasan)."
+    narrator "Status hubungan akhir"
+    $ add_journal("D33", "Hubungan-hubungan akhir diringkas sebelum epilog bergerak lebih jauh.")
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "Raden Wijaya/Kertarajasa: sahabat menjadi raja yang takut bayangan." 
+    narrator "{a=call:show_ensik_raden_wijaya}Raden Wijaya{/a}/Kertarajasa: sahabat menjadi raja yang takut bayangan."
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "Lembu Sora: berubah sesuai D25." 
+    narrator "{a=call:show_ensik_lembu_sora}Lembu Sora{/a}: berubah sesuai D25."
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "Arya Wiraraja: ayah yang mencintai dengan cara paling rumit." 
+    narrator "{a=call:show_ensik_arya_wiraraja}Arya Wiraraja{/a}: ayah yang mencintai dengan cara paling rumit." 
     if rakyat_loyal:
         # TODO: Tambahkan Voice Over (VO) narrator
         narrator "Rakyat Tuban: loyalitas tinggi—warisan paling tulus." 
     return
 
 label scene_d34:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Pelabuhan Tuban")
+    call screen chapter_activity_hub("FASE PENERUS", "Tentukan bagaimana nama Ranggalawe akan diteruskan kepada putranya.")
+    scene pelabuhan1:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-10 (Pelabuhan Tuban)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D34 - Kuda Anjampiani: sang putra."
+    $ add_journal("D34", "Kuda Anjampiani mulai menentukan cara meneruskan nama ayahnya.")
 
     menu:
         "Pergi ke Trowulan, pelajari hukum, ajukan klaim warisan. (Siasat)":
@@ -98,28 +136,34 @@ label scene_d34:
             $ siasat += 1
             $ kehormatan += 15
             $ kebijakan += 20
+            $ add_journal("D34", "Putra memilih jalur hukum untuk klaim warisan.")
 
         "Membangun Tuban agar pantas dicintai. (Mediasi)":
             $ d34_choice = "B"
             $ mediasi += 1
             $ kehormatan += 10
             $ loyalitas_rakyat += 25
+            $ add_journal("D34", "Putra memilih membangun Tuban sebagai cara mengenang nama ayahnya.")
 
         "Membawa nama Ranggalawe ke mana pun pergi. (Konfrontasi)":
             $ d34_choice = "C"
             $ konfrontasi += 1
             $ keberanian += 15
             $ kehormatan += 10
+            $ add_journal("D34", "Putra memilih membawa nama Ranggalawe ke mana pun ia pergi.")
 
     return
 
 label scene_d35:
-    scene blackscreen with fade
-    # TODO: Gunakan aset BG asli: BG-14 & BG-20 (Split Screen)
+    show screen scene_header("1295 M", "Dua Tafsir yang Abadi")
+    scene split3:
+        xysize(1920,1080)
+    with fade    # TODO: Gunakan aset BG asli: BG-14 & BG-20 (Split Screen)
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "SCENE D35 - Dua tafsir yang abadi."
+    narrator "Dua tafsir yang abadi."
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "Ia pemberontak—atau ia pahlawan. Di antara keduanya, kisahnya hidup."
+    $ add_journal("D35", "Tafsiran tentang Ranggalawe tetap hidup di antara pemberontakan dan kepahlawanan.")
 
     # Routing ending by dominant tendency.
     $ ending = "A"
@@ -129,24 +173,29 @@ label scene_d35:
         $ ending = "C"
 
     if ending == "A":
-        call scene_d36
+        call scene_d36 from _call_scene_d36
     elif ending == "B":
-        call scene_d37
+        call scene_d37 from _call_scene_d37
     else:
-        call scene_d38
+        call scene_d38 from _call_scene_d38
 
     if rakyat_loyal:
-        call scene_d39
+        call scene_d39 from _call_scene_d39
 
-    call scene_d40
+    call scene_d40 from _call_scene_d40
 
     return
 
 label scene_d36:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Makam Ranggalawe")
+    scene makam2:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-20 (Makam Ranggalawe)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D36 - ENDING A (Konfrontasi) - Tone: Pahit."
+    $ add_journal("D36", "Akhir konfrontatif menutup kisah dengan pahit yang keras."
+)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "Kata terakhir menyebut Mahapati. Nama itu berbisik lama di Tuban."
     if mahapati_letter_given:
@@ -157,10 +206,14 @@ label scene_d36:
     return
 
 label scene_d37:
-    scene blackscreen with fade
-    # TODO: Gunakan aset BG asli: BG-20 (Makam Ranggalawe)
+    show screen scene_header("1295 M", "Makam Ranggalawe")
+    scene makam3:
+        xysize(1920,1080)
+    with fade    # TODO: Gunakan aset BG asli: BG-20 (Makam Ranggalawe)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D37 - ENDING B (Mediasi) - Tone: Melankolik."
+    $ add_journal("D37", "Akhir mediasi meninggalkan melankoli yang lebih lembut namun tetap tajam."
+)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "Nambi mendengar kabar kematianmu sendirian. Ada sesuatu yang berubah dalam matanya."
     if d26_pact:
@@ -171,10 +224,15 @@ label scene_d37:
     return
 
 label scene_d38:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Makam Ranggalawe")
+    scene makam4:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-20 (Makam Ranggalawe)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D38 - ENDING C (Siasat/Mobilisasi) - Tone: Enigmatik."
+    $ add_journal("D38", "Akhir siasat menutup kisah dengan jejak yang samar dan enigmatik."
+)
     if d17_route == "C":
         # TODO: Tambahkan Voice Over (VO) narrator
         narrator "Ra Galatik menghilang dari Majapahit. Di pasar, tangannya berhenti setiap kali namamu disebut."
@@ -183,34 +241,45 @@ label scene_d38:
     return
 
 label scene_d39:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Tuban")
+    scene tuban:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-10 / BG-12 (Tuban)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D39 - Rakyat Tuban bergerak. (Opsional; aktif jika D15-C)"
+    $ add_journal("D39", "Rakyat Tuban bergerak menentukan bentuk memorial yang mereka pilih sendiri.")
 
     menu:
         "Izinkan rakyat membangun monumen.":
             $ d39_choice = "A"
             # TODO: Tambahkan Voice Over (VO) narrator
             narrator "Tuban jadi pusat ziarah."
+            $ add_journal("D39", "Monumen dibangun dan Tuban menjadi pusat ziarah.")
 
         "Larang—terlalu berbahaya secara politik.":
             $ d39_choice = "B"
             # TODO: Tambahkan Voice Over (VO) narrator
             narrator "Kenangan hidup dalam lagu, lebih sulit dipadamkan."
+            $ add_journal("D39", "Monumen dilarang, tapi kenangan tetap hidup lewat lagu.")
 
         "Biarkan rakyat memutuskan sendiri.":
             $ d39_choice = "C"
             # TODO: Tambahkan Voice Over (VO) narrator
             narrator "Selalu ada yang membawa bunga ke tepi Tambak Beras."
+            $ add_journal("D39", "Rakyat memutuskan sendiri dan bunga terus kembali ke Tambak Beras.")
 
     return
 
 label scene_d40:
-    scene blackscreen with fade
+    show screen scene_header("1295 M", "Epilog")
+    scene makam3:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-20 (Makam Ranggalawe)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "SCENE D40 - Epilog akhir: nilai yang tidak bisa diusir."
+    $ add_journal("D40", "Epilog menutup perjalanan dengan nilai yang tidak bisa diusir dari sejarah.")
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "Seca Wecana — setia pada janji."
     # TODO: Tambahkan Voice Over (VO) narrator
@@ -219,8 +288,14 @@ label scene_d40:
     narrator "Lila ing Donya — ikhlas berkorban."
 
     # TODO: Tambahkan Voice Over (VO) narrator
-    narrator "Di antara dua tafsir itu, kisah Ranggalawe hidup—dalam abu-abu yang paling jujur."
+    narrator "Di antara dua tafsir itu, kisah {a=call:show_ensik_ranggalawe}Ranggalawe{/a} hidup—dalam abu-abu yang paling jujur."
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "Bagi sebagian, ia pemberontak. Bagi Tuban... ia simbol keberanian melawan ketidakadilan."
+    if d29_focus == "law":
+        narrator "Warisan hukumnya bertahan lebih lama daripada para pelaku yang membentuknya."
+    elif d29_focus == "people":
+        narrator "Warisan rakyatnya hidup dalam ziarah, lagu, dan ingatan yang diwariskan turun-temurun."
+    elif d29_focus == "name":
+        narrator "Namanya sendiri menjadi bentuk warisan yang paling sulit dipadamkan."
 
     return

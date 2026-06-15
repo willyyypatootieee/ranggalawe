@@ -3,8 +3,9 @@
 # SCENE D01 - KABAR DATANG KE SUMENEP
 # ==========================================
 label scene_d01:
+    show screen scene_header("1292 M", "Sumenep, Madura")
     # Aset placeholder
-    scene expression Movie(play="video/scene1_1.webm", mute=True, size=(1920, 1080)) with fade
+    scene expression Movie(play="video/scene1_1.webm", mute=True, size=(1920, 1080))
 
     # TODO: Tambahkan Voice Over (VO) narrator
     voice "audio/scene1_2.mp3" 
@@ -13,55 +14,52 @@ label scene_d01:
     # TODO: Tambahkan Voice Over (VO) narrator
 
     voice "audio/scene1_3.mp3" 
-    scene standing:
-        xysize (1920, 1080)
-    with fade
+    scene expression Movie(play="video/scene1_2.webm", mute=True, size=(1920, 1080)) with fade
 
     narrator "{a=call:show_ensik_raden_wijaya}Raden Wijaya{/a} melarikan diri. Di Sumenep, Madura - seorang ayah menunggu putranya menyampaikan berita yang mengubah segala-galanya."
 
-    scene joglo:
+    scene milih:
         xysize(1920, 1080)
     with fade
-    show arya serius at center with dissolve
     arya "Anakku. {a=call:show_ensik_raden_wijaya}Raden Wijaya{/a} dalam pelarian. Ia membutuhkan orang-orang yang ia percaya - sekarang, malam ini."
     arya "Ini bukan waktunya menangis. Ini waktunya memilih."
     
     # TODO: Tambahkan Voice Over (VO) narrator
 
     voice "audio/scene1_4.mp3"
-    narrator "[[Batin Ken Kara] Ayah tidak pernah berbicara seperti ini sebelumnya. Ada yang bergetar di dadaku - entah ketakutan, entah kegembiraan..."
+    narrator_batin "Ayah tidak pernah berbicara seperti ini sebelumnya. Ada yang bergetar di dadaku — entah ketakutan, entah kegembiraan..."
 
     # Pilihan Pemain - Titik Percabangan Utama D01
+    # Rollback dikunci — keputusan ini tidak bisa diubah
+    $ renpy.block_rollback()
     menu:
         "Katakan di mana Raden Wijaya. Aku akan pergi malam ini. (Konfrontasi)":
             $ konfrontasi += 1
             $ d01_choice = "A"
             $ keberanian += 15
             $ loyalitas += 10
-            call d01_jalur_a
+            call d01_jalur_a from _call_d01_jalur_a
             
         "Satu hari, Ayah. Aku butuh mengumpulkan pria terbaik Madura. (Mediasi)":
             $ mediasi += 1
             $ d01_choice = "B"
             $ kebijakan += 15
             $ loyalitas += 5
-            call d01_jalur_b
+            call d01_jalur_b from _call_d01_jalur_b
             
         "Aku tahu ada lebih dari sekadar 'pergi'. Apa yang Ayah rencanakan? (Siasat)":
             $ siasat += 1
             $ d01_choice = "C"
             $ kebijakan += 10
             $ kehormatan += 10
-            call d01_jalur_c
+            call d01_jalur_c from _call_d01_jalur_c
 
     return
 
 label d01_jalur_a:
-    scene bg 01:
+    scene blessing:
         xysize (1920, 1080)
     with fade
-
-    show arya bangga at center with dissolve
     arya "Pergi. Tapi ingat, anakku - yang pertama datang adalah yang paling dikenang."
     
     # Aset BG asli: BG-01 (Pendopo Sumenep Eksterior - Jalan Malam) sudah dipasang.
@@ -72,29 +70,26 @@ label d01_jalur_a:
     return
 
 label d01_jalur_b:
-    show arya bijak at center with dissolve
     arya "Kamu bijak. Kumpulkan 200 prajurit terbaik. Pasukan Madura adalah kekuatan nyata yang tidak bisa diabaikan."
-    
-    scene bg 01:
-        xysize (1920, 1080)
-    with fade
+
 
     # Aset BG asli: BG-01 (Pendopo Sumenep Eksterior - Pagi) sudah dipasang.
     # TODO: Tambahkan aset cutscene
     # TODO: Tambahkan Voice Over (VO) narrator
     voice "audio/scene2a.mp3"
+    scene 200:
+        xysize (1920, 1080)
+    with fade
     narrator "200 prajurit berjejer. Ken Kara memimpin di depan. Terdengar irama genderang ringan."
     return
 
 label d01_jalur_c:
-    show arya ambigu at center with dissolve
     arya "(Tersenyum tipis) Kamu lebih cerdas dari yang kukira. Duduk. Dengarkan rencanaku yang sebenarnya."
-    
-    scene bg 02 with fade
-    # TODO: Tambahkan aset cutscene
-    # TODO: Tambahkan Voice Over (VO) narrator
     voice "audio/scene3a.mp3"
-    narrator "[[CUTSCENE] INT. Ruang Dalam Pendopo - Malam.\nPeta jaringan dan siasat ganda terbentang di atas meja. Garis-garis strategi saling bersilangan — menandakan permainan yang jauh lebih berbahaya daripada perang biasa."
+    scene strategy:
+        xysize (1920, 1080)
+    with fade
+    narrator "Peta jaringan dan siasat ganda terbentang di atas meja. Garis-garis strategi saling bersilangan — menandakan permainan yang jauh lebih berbahaya daripada perang biasa."
     return
 
 # ==========================================
@@ -144,9 +139,11 @@ init python:
     def parse_hyperlink(link):
         if link.startswith("show_ensik_"):
             target_char = link.replace("show_ensik_", "")
+            if target_char not in ensik_discovered:
+                renpy.notify("Lore ini belum terbuka. Temukan petunjuk penting dulu.")
+                return False
             renpy.show_screen("ensiklopedia_karakter", char_id=target_char)
-            renpy.restart_interaction()
-            return True
+            return False
         return False
     config.hyperlink_handlers["call"] = parse_hyperlink
 
@@ -181,6 +178,18 @@ init python:
             "arti": ("Makna Nama:", "Nambi adalah nama orang biasa yang tidak bergelar bawaan seperti 'Lembu' atau 'Gajah'. Namun, posisinya dan tindakannya kelak akan merepresentasikan kekuatan besar di balik gelar Mahapatih dalam hirarki."),
             "asal_usul": ("Konteks Historis:", "Tokoh berpengaruh besar; salah satu pemuda pengikut setia Raden Wijaya sejak runtuhnya Singhasari. Akan memicu intrik saat Kertarajasa mengangkatnya sebagai {b}Rakryan Patih Amangkubumi{/b}—posisi yang merasa lebih layak dipercayakan ke Ranggalawe atau Lembu Sora."),
             "nilai": ("Bayang-bayang Kekuasaan:", "Digambarkan sebagai figur tenang, dekat dengan inti kekuasaan tanpa harus terlalu menonjol di medan fisik, menjadikannya kanvas sempurna bagi fitnah politis.")
+        },
+        "mahapati": {
+            "title": "ENSIKLOPEDIA: MAHAPATI",
+            "arti": ("Makna Nama:", "{b}'Maha'{/b} berarti agung atau besar (Sanskerta). {b}'Pati'{/b} merujuk pada kematian atau pejabat tertinggi. Secara politis, Mahapati adalah gelar bagi seorang Patih Agung — pengatur kerajaan di bawah raja."),
+            "asal_usul": ("Konteks Historis:", "Nama aslinya {b}Halayudha{/b}. Tercatat dalam Pararaton sebagai dalang utama fitnah yang menjatuhkan Ranggalawe. Ia memanfaatkan kecemburuan dan ambisi untuk menyingkirkan para ksatria yang mengancam posisinya di istana Majapahit."),
+            "nilai": ("Antagonis Sistemik:", "Mahapati bukan sekadar penjahat — ia adalah cermin dari sistem istana yang menghukum kesetiaan mentah dan menghargai kelicinan. Ia menang dalam jangka pendek, namun kelak ia pun menjadi korban intrik yang sama.")
+        },
+        "kebo_anabrang": {
+            "title": "ENSIKLOPEDIA: KEBO ANABRANG",
+            "arti": ("Makna Nama:", "{b}'Kebo'{/b} dalam bahasa Jawa Kuno berarti kerbau — lambang kekuatan, ketangguhan, dan keberanian sejati seorang ksatria. {b}'Anabrang'{/b} berarti menyeberang atau melampaui batas."),
+            "asal_usul": ("Konteks Historis:", "Panglima militer Majapahit yang terpercaya. Dikirim oleh Kertarajasa untuk menekan pemberontakan Ranggalawe di Tuban. Menurut beberapa sumber, ia pernah bersumpah kepada Ranggalawe sebelum pertempuran — yang membuatnya menjadi figur tragis."),
+            "nilai": ("Ksatria di Dua Sisi:", "Kebo Anabrang bukan musuh sederhana — ia menjalankan tugas dengan berat hati. Pertemuannya dengan Ranggalawe di Sungai Tambak Beras adalah salah satu momen paling tragis dalam kronik Majapahit.")
         }
     }
 
@@ -188,6 +197,8 @@ screen ensiklopedia_karakter(char_id):
     zorder 100
     modal True
     add "#000000cc" 
+    key "K_ESCAPE" action Hide("ensiklopedia_karakter")
+    key "mouseup_3" action Hide("ensiklopedia_karakter")
     
     default active_tab = "arti"
     $ data = ensik_data.get(char_id, ensik_data["ranggalawe"])
@@ -196,6 +207,7 @@ screen ensiklopedia_karakter(char_id):
         align (0.5, 0.5)
         xysize (900, 520)
         background Solid("#121a22")
+        at enc_slide_in
         
         # Border Frame
         frame:
@@ -265,20 +277,30 @@ screen ensiklopedia_karakter(char_id):
                     background Solid("#27ae60") hover_background Solid("#2ecc71")
                     text_color "#fff" padding (40, 10)
                     
-                text "Opsional — menutup tidak mempengaruhi cerita." italic True size 14 color "#7f8c8d" xalign 0.5 yoffset 10
+                text "Klik nama yang bercahaya di teks cerita untuk membuka halaman lain." italic True size 14 color "#7f8c8d" xalign 0.5 yoffset 10
 
 label scene_d03:
     scene bg 06 with fade
     # TODO: Gunakan aset BG asli: BG-05 / BG-06 (Kamp Hutan Tarik)
 
+    $ unlock_ensik("ranggalawe")
+    $ unlock_ensik("raden_wijaya")
+    $ unlock_ensik("arya_wiraraja")
+    $ unlock_ensik("lembu_sora")
+
     if d01_choice == "A":
         # TODO: Tambahkan aset cutscene
         # TODO: Tambahkan Voice Over (VO) narrator
         voice "audio/scene10.mp3"
-        narrator "[[CUTSCENE] Raden Wijaya memeluk Ken Kara. 'Kamu datang sendiri, tanpa diminta. Itulah keberanian yang Majapahit butuhkan.'"
+        scene expression Movie(play="video/scene1_4.webm", mute=True, size=(1920, 1080)) with fade
+
+        narrator "Raden Wijaya memeluk Ken Kara. 'Kamu datang sendiri, tanpa diminta. Itulah keberanian yang Majapahit butuhkan.'"
     elif d01_choice == "B":
         # TODO: Tambahkan aset cutscene
         # TODO: Tambahkan Voice Over (VO) narrator
+        scene meminjau:
+            xysize(1920,1080)
+        with fade
         voice "audio/scene11.mp3"
         narrator "[[CUTSCENE] Raden Wijaya meninjau 200 prajurit. 'Kamu tidak hanya membawa dirimu. Kamu membawa Madura.'"
     elif d01_choice == "C":
@@ -288,7 +310,9 @@ label scene_d03:
         narrator "[[CUTSCENE] Raden Wijaya berbisik. 'Wiraraja bilang kamu sudah tahu semuanya. Aku butuh orang seperti itu di dekatku.'"
 
     voice "audio/scene13.mp3"
-    show raden_k berwibawa
+    scene sertijab:
+        xysize(1920,1080)
+    with fade
     raden "Mulai hari ini, kamu kupanggil {a=call:show_ensik_ranggalawe}Ranggalawe{/a} — ia yang boleh memerintah anak buahku. Nama ini bukan hadiah. Ini tanggung jawab."
 
     menu:
@@ -296,12 +320,14 @@ label scene_d03:
             $ konfrontasi += 1
             $ loyalitas += 20
             $ kehormatan += 15
+            show lembu penuhkasih at speaker_left with dissolve
             lembu "Nama yang berat. Tapi kamu kuat untuk membawanya."
 
         "Hamba bersedia. Tapi apa artinya Ranggalawe dalam situasi yang belum pasti ini? (Mediasi)":
             $ mediasi += 1
             $ kebijakan += 10
             $ kehormatan += 15
+            show lembu sedih at speaker_left with dissolve
             # TODO: Tambahkan Voice Over (VO) narrator
             narrator "Lembu Sora mengangguk pelan dari kejauhan, tidak berkata apa-apa."
 
@@ -309,6 +335,7 @@ label scene_d03:
             $ siasat += 1
             $ keberanian += 10
             $ kebijakan += 15
+            show lembu tegas at speaker_left with dissolve
             lembu "Hati-hati, keponakanku. Di sini orang dinilai dari cara ia diam, bukan berbicara."
             
     return
@@ -317,20 +344,29 @@ label scene_d03:
 # SCENE D04 - MALAM PERTAMA DI HUTAN TARIK
 # ==========================================
 label scene_d04:
-    scene bg 07 with fade
+    scene api:
+        xysize(1920,1080)
+    with fade
     # TODO: Gunakan aset BG asli: BG-07 (Kamp Hutan Tarik - Malam)
     # TODO: Tambahkan Voice Over (VO) narrator
     voice "audio/scene14.mp3"
     narrator "Malam pertama di Hutan Tarik. Ada satu malam untuk berkenalan dengan orang-orang yang akan mewarnai perjalanannya."
 
+    $ unlock_ensik("nambi")
+    $ unlock_ensik("kebo_anabrang")
+
+    scene bg_hutan1 with fade
     menu:
         "[[Duduk bersama {a=call:show_ensik_lembu_sora}Lembu Sora{/a} di api unggun] Paman punya cerita perang malam ini? (Mediasi)":
             $ mediasi += 1
             $ d04_choice = "A"
             $ kebijakan += 10
             $ loyalitas_sora += 15
+            show lembu lelah at speaker_left with dissolve
+            show ranggalawe neutral at right with dissolve
             lembu "Kamu tahu kenapa aku masih hidup? Karena aku tahu kapan harus maju dan kapan harus diam."
             ranggalawe "Apakah ada saatnya diam adalah pengkhianatan, Paman?"
+            show lembu konflik at speaker_left with dissolve
             lembu "Itu pertanyaan yang akan menjawab dirinya sendiri nanti."
 
         "[[Amati {a=call:show_ensik_nambi}Nambi{/a} dari kejauhan] Kenapa ia selalu di sisi {a=call:show_ensik_raden_wijaya}Raden Wijaya{/a}? (Siasat)":
@@ -347,8 +383,10 @@ label scene_d04:
             $ d04_choice = "C"
             $ keberanian += 15
             $ kehormatan += 5
+            show kebo tegas at speaker_left with dissolve
             kebo "Bagus. Di darat kamu tangguh. Tapi ingat - setiap orang punya tempat di mana ia paling lemah."
             ranggalawe "Termasuk kamu?"
+            show kebo dingin at speaker_left with dissolve
             kebo "Tidak ada yang tidak bisa dipikirkan jawabannya. Termasuk pertanyaan itu."
 
         "Lewati malam dan istirahat.":
@@ -416,10 +454,38 @@ init python:
         def is_ready(self):
             return self.route is not None and self.time is not None and self.disguise is not None
 
+        def preview(self):
+            """Return (effectiveness, risk, honor) 0-100 for live display."""
+            eff, risk, hon = 0, 50, 0
+            # Route modifiers
+            if self.route == "hutan":
+                eff += 25; risk -= 15; hon += 5
+            elif self.route == "utama":
+                eff += 15; risk += 20; hon += 0
+            elif self.route == "brantas":
+                eff += 20; risk -= 5; hon += 10
+            # Time modifiers
+            if self.time == "malam":
+                eff += 20; risk -= 20
+            elif self.time == "siang":
+                eff += 5; risk += 15
+            elif self.time == "subuh":
+                eff += 15; risk -= 5
+            # Disguise modifiers
+            if self.disguise == "pedagang":
+                eff += 20; risk -= 10; hon += 5
+            elif self.disguise == "pengungsi":
+                eff += 10; risk += 5; hon += 15
+            elif self.disguise == "prajurit_pembelot":
+                eff += 5; risk += 20; hon -= 5
+            return (min(max(eff, 0), 100), min(max(risk, 0), 100), min(max(hon, 0), 100))
+
+    # Positions are screen-absolute (new layout: left panel top-left ~452,218)
+    # Slot row = 82px; cards start at y_offset ~115px below hbox top
     d05_drag_starts = {
-        "hutan": (40, 270), "utama": (40, 360), "brantas": (40, 450),
-        "siang": (360, 270), "malam": (360, 360), "subuh": (360, 450),
-        "pedagang": (680, 270), "pengungsi": (680, 360), "prajurit_pembelot": (680, 450)
+        "hutan":  (24, 120), "utama":  (24, 190), "brantas": (24, 260),
+        "siang":  (244, 120), "malam":  (244, 190), "subuh":   (244, 260),
+        "pedagang": (464, 120), "pengungsi": (464, 190), "prajurit_pembelot": (464, 260)
     }
 
     def d05_dragged(drags, drop):
@@ -438,7 +504,7 @@ init python:
                 elif cat == "disguise": store.d05_planner.set_disguise(drag.drag_name)
                 
                 # Snap perfectly to the center of the slot wrapper
-                drag.snap(drop.x + 5, drop.y + 5, 0.1)
+                drag.snap(drop.x + 4, drop.y + 11, 0.1)
                 renpy.restart_interaction()
                 return
 
@@ -458,219 +524,307 @@ default d05_planner = D05InfiltrationPlanner()
 
 screen d05_minigame_peta():
     modal True
-    add "#000000e6" # Muted very dark background
+    add Solid("#070c10")
 
-    on "show" action Function(d05_planner.__init__) # Reset state setiap minigame dimulai
+    on "show" action Function(d05_planner.__init__)
 
-    # Border frame luar
+    ## ── Outer frame ──────────────────────────────────────────────────────────
     frame:
         align (0.5, 0.5)
-        xysize (1040, 760)
-        background Solid("#f39c12") # Accent gold border
-        
-        # Frame dalam
+        xysize (1060, 780)
+        background Solid("#f39c12")
+
         frame:
             align (0.5, 0.5)
-            xysize (1036, 756)
-            background Solid("#121a22") 
-            
+            xysize (1056, 776)
+            background Solid("#0b1219")
+
+            ## ── Header ───────────────────────────────────────────────────────
             vbox:
-                spacing 10
-                align (0.5, 0.0)
-                yoffset 25
-                
-                text "🗺️ PETA STRATEGI INFILTRASI KEDIRI 🗺️" size 38 bold True xalign 0.5 color "#f1c40f" outlines [(2, "#000", 0, 0)]
-                text "Susun taktik dengan memindahkan strategi dari panel bawah ke slot aktif di atas." size 18 xalign 0.5 color "#bdc3c7" italic True
-                
-                null height 5
-                add Solid("#f39c12") xsize 950 ysize 2 xalign 0.5 alpha 0.5
+                xalign 0.5
+                yoffset 18
+                spacing 4
+                text "⚔  PETA STRATEGI INFILTRASI KEDIRI  ⚔":
+                    size 34 bold True xalign 0.5 color "#f1c40f"
+                    outlines [(3, "#000000", 0, 0)]
+                text "Seret setiap kartu ke slot yang tepat — lalu jalankan operasi.":
+                    size 16 italic True xalign 0.5 color "#7f8c8d"
+                null height 4
+                add Solid("#f39c1288") xsize 980 ysize 2 xalign 0.5
 
-            # Area Drag and Drop
-            draggroup:
+            ## ── Drop Slots + Assessment side-by-side ─────────────────────────
+            hbox:
+                xalign 0.5
+                yoffset 68
+                spacing 22
 
-                # Titik Tempat Drop (Slot)
-                drag:
-                    drag_name "drop_route"
-                    xpos 35 ypos 140
-                    draggable False
-                    droppable True
-                    frame:
-                        xysize (290, 80)
-                        background Solid("#c0392b") # Accent route
-                        frame:
-                            align (0.5, 0.5)
-                            xysize (286, 76)
-                            background Solid("#1a252f")
-                            text "{{alpha=0.4}} SLOT RUTE {{/alpha}}" align (0.5, 0.5) color "#e74c3c" size 18 bold True
-
-                drag:
-                    drag_name "drop_time"
-                    xpos 355 ypos 140
-                    draggable False
-                    droppable True
-                    frame:
-                        xysize (290, 80)
-                        background Solid("#2980b9") # Accent time
-                        frame:
-                            align (0.5, 0.5)
-                            xysize (286, 76)
-                            background Solid("#1a252f")
-                            text "{{alpha=0.4}} SLOT WAKTU {{/alpha}}" align (0.5, 0.5) color "#3498db" size 18 bold True
-                        
-                drag:
-                    drag_name "drop_disguise"
-                    xpos 675 ypos 140
-                    draggable False
-                    droppable True
-                    frame:
-                        xysize (290, 80)
-                        background Solid("#8e44ad") # Accent disguise
-                        frame:
-                            align (0.5, 0.5)
-                            xysize (286, 76)
-                            background Solid("#1a252f")
-                            text "{{alpha=0.4}} SLOT SAMARAN {{/alpha}}" align (0.5, 0.5) color "#9b59b6" size 18 bold True
-
-
-                # Pilihan yang bisa di Drag (Draggables)
-                # ========================================
-
-                # Rute
-                drag:
-                    drag_name "hutan"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["hutan"][0] ypos d05_drag_starts["hutan"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#801b12") hover_background Solid("#c0392b")
-                        hbox:
-                            align (0.5, 0.5)
-                            spacing 15
-                            add Transform("images/Icon/hutan_gelap.png", size=(45, 45)) align (0.5, 0.5)
-                            text "Hutan Gelap" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                drag:
-                    drag_name "utama"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["utama"][0] ypos d05_drag_starts["utama"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#801b12") hover_background Solid("#c0392b")
-                        hbox:
-                            align (0.5, 0.5)
-                            spacing 15
-                            add Transform("images/Icon/gerbang_kerajaan.png", size=(45, 45)) align (0.5, 0.5)
-                            text "Jalur Utama" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                drag:
-                    drag_name "brantas"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["brantas"][0] ypos d05_drag_starts["brantas"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#801b12") hover_background Solid("#c0392b")
-                        hbox:
-                            align (0.5, 0.5)
-                            spacing 15
-                            add Transform("images/Icon/sungai.png", size=(45, 45)) align (0.5, 0.5)
-                            text "Lewat Sungai" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                # Waktu
-                drag:
-                    drag_name "siang"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["siang"][0] ypos d05_drag_starts["siang"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#1a5276") hover_background Solid("#2980b9")
-                        text "☀️ Siang Hari" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                drag:
-                    drag_name "malam"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["malam"][0] ypos d05_drag_starts["malam"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#1a5276") hover_background Solid("#2980b9")
-                        text "🌙 Malam Buta" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                drag:
-                    drag_name "subuh"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["subuh"][0] ypos d05_drag_starts["subuh"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#1a5276") hover_background Solid("#2980b9")
-                        text "🌅 Subuh" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                # Penyamaran
-                drag:
-                    drag_name "pedagang"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["pedagang"][0] ypos d05_drag_starts["pedagang"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#5b2c6f") hover_background Solid("#8e44ad")
-                        text "🌾 Pedagang Padi" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                drag:
-                    drag_name "pengungsi"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["pengungsi"][0] ypos d05_drag_starts["pengungsi"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#5b2c6f") hover_background Solid("#8e44ad")
-                        text "⛺ Pengungsi" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-                drag:
-                    drag_name "prajurit_pembelot"
-                    dragged d05_dragged
-                    droppable False
-                    xpos d05_drag_starts["prajurit_pembelot"][0] ypos d05_drag_starts["prajurit_pembelot"][1]
-                    frame:
-                        xysize (280, 70)
-                        background Solid("#5b2c6f") hover_background Solid("#8e44ad")
-                        text "💂 Prajurit Pembelot" align (0.5, 0.5) color "#fff" size 22 outlines [(1, "#000", 0, 0)]
-
-
-            # --- Konfirmasi Action ---
-            vbox:
-                align (0.5, 1.0)
-                yoffset -40
-                spacing 15
-
-                # --- Panel Rekap ---
+                ## ── LEFT: Drag-drop zone ─────────────────────────────────────
                 frame:
-                    background Solid("#1c2833")
-                    padding (20, 15)
-                    xsize 950
+                    background Solid("#0d1520")
+                    xysize (680, 640)
+                    padding (0, 0)
+
+                    draggroup:
+
+                        ## ─ Drop slots ─────────────────────────────────────────
+
+                        drag:
+                            drag_name "drop_route"
+                            xpos 20 ypos 10
+                            draggable False droppable True
+                            frame:
+                                xysize (200, 82)
+                                background Solid("#7a1a0f")
+                                frame:
+                                    align (0.5, 0.5)
+                                    xysize (196, 78)
+                                    background Solid(("#2c0d09" if not d05_planner.route else "#c0392b"))
+                                    vbox:
+                                        xalign 0.5 yalign 0.5 spacing 2
+                                        text "🗺 JALUR":
+                                            size 13 bold True color "#e74c3c" xalign 0.5
+                                        text (d05_planner.route.capitalize() if d05_planner.route else "— pilih —"):
+                                            size 18 bold True xalign 0.5
+                                            color ("#ffffff" if d05_planner.route else "#4a1a15")
+
+                        drag:
+                            drag_name "drop_time"
+                            xpos 240 ypos 10
+                            draggable False droppable True
+                            frame:
+                                xysize (200, 82)
+                                background Solid("#1a4a7a")
+                                frame:
+                                    align (0.5, 0.5)
+                                    xysize (196, 78)
+                                    background Solid(("#0a1e2e" if not d05_planner.time else "#2980b9"))
+                                    vbox:
+                                        xalign 0.5 yalign 0.5 spacing 2
+                                        text "🕐 WAKTU":
+                                            size 13 bold True color "#3498db" xalign 0.5
+                                        text (d05_planner.time.capitalize() if d05_planner.time else "— pilih —"):
+                                            size 18 bold True xalign 0.5
+                                            color ("#ffffff" if d05_planner.time else "#0d2b3e")
+
+                        drag:
+                            drag_name "drop_disguise"
+                            xpos 460 ypos 10
+                            draggable False droppable True
+                            frame:
+                                xysize (200, 82)
+                                background Solid("#5b1e7a")
+                                frame:
+                                    align (0.5, 0.5)
+                                    xysize (196, 78)
+                                    background Solid(("#1e0a2e" if not d05_planner.disguise else "#8e44ad"))
+                                    vbox:
+                                        xalign 0.5 yalign 0.5 spacing 2
+                                        text "🎭 SAMARAN":
+                                            size 13 bold True color "#9b59b6" xalign 0.5
+                                        text (d05_planner.disguise.replace("_"," ").title() if d05_planner.disguise else "— pilih —"):
+                                            size 18 bold True xalign 0.5
+                                            color ("#ffffff" if d05_planner.disguise else "#2e1040")
+
+                        ## ─ Divider ─────────────────────────────────────────────
+
+                        ## ─ Draggable cards ─────────────────────────────────────
+
+                        # RUTE
+                        drag:
+                            drag_name "hutan"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["hutan"][0] ypos d05_drag_starts["hutan"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#8e1a10") hover_background Solid("#e74c3c")
+                                padding (10, 0)
+                                hbox:
+                                    xalign 0.5 yalign 0.5 spacing 10
+                                    text "🌲" size 22 yalign 0.5
+                                    text "Hutan Gelap" color "#fff" size 18 bold True yalign 0.5
+
+                        drag:
+                            drag_name "utama"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["utama"][0] ypos d05_drag_starts["utama"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#8e1a10") hover_background Solid("#e74c3c")
+                                padding (10, 0)
+                                hbox:
+                                    xalign 0.5 yalign 0.5 spacing 10
+                                    text "🏯" size 22 yalign 0.5
+                                    text "Jalur Utama" color "#fff" size 18 bold True yalign 0.5
+
+                        drag:
+                            drag_name "brantas"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["brantas"][0] ypos d05_drag_starts["brantas"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#8e1a10") hover_background Solid("#e74c3c")
+                                padding (10, 0)
+                                hbox:
+                                    xalign 0.5 yalign 0.5 spacing 10
+                                    text "🌊" size 22 yalign 0.5
+                                    text "Lewat Sungai" color "#fff" size 18 bold True yalign 0.5
+
+                        # WAKTU
+                        drag:
+                            drag_name "siang"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["siang"][0] ypos d05_drag_starts["siang"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#1a5276") hover_background Solid("#2980b9")
+                                padding (10, 0)
+                                text "☀️ Siang Hari" align (0.5, 0.5) color "#fff" size 18 bold True
+
+                        drag:
+                            drag_name "malam"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["malam"][0] ypos d05_drag_starts["malam"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#1a5276") hover_background Solid("#2980b9")
+                                padding (10, 0)
+                                text "🌙 Malam Buta" align (0.5, 0.5) color "#fff" size 18 bold True
+
+                        drag:
+                            drag_name "subuh"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["subuh"][0] ypos d05_drag_starts["subuh"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#1a5276") hover_background Solid("#2980b9")
+                                padding (10, 0)
+                                text "🌅 Subuh" align (0.5, 0.5) color "#fff" size 18 bold True
+
+                        # SAMARAN
+                        drag:
+                            drag_name "pedagang"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["pedagang"][0] ypos d05_drag_starts["pedagang"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#5b2c6f") hover_background Solid("#8e44ad")
+                                padding (10, 0)
+                                text "🌾 Pedagang Padi" align (0.5, 0.5) color "#fff" size 18 bold True
+
+                        drag:
+                            drag_name "pengungsi"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["pengungsi"][0] ypos d05_drag_starts["pengungsi"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#5b2c6f") hover_background Solid("#8e44ad")
+                                padding (10, 0)
+                                text "⛺ Pengungsi" align (0.5, 0.5) color "#fff" size 18 bold True
+
+                        drag:
+                            drag_name "prajurit_pembelot"
+                            dragged d05_dragged droppable False
+                            xpos d05_drag_starts["prajurit_pembelot"][0] ypos d05_drag_starts["prajurit_pembelot"][1]
+                            frame:
+                                xysize (192, 60)
+                                background Solid("#5b2c6f") hover_background Solid("#8e44ad")
+                                padding (10, 0)
+                                text "💂 Prajurit Pembelot" align (0.5, 0.5) color "#fff" size 17 bold True
+
+                ## ── RIGHT: Live Assessment Panel ─────────────────────────────
+                frame:
+                    background Solid("#0d1520")
+                    xysize (310, 640)
+                    padding (18, 18)
                     vbox:
-                        spacing 5
-                        xalign 0.5
-                        text "Ringkasan Rencana Operasi:" bold True color "#7f8c8d" size 16 xalign 0.5
-                        text ("Jalur: " + (d05_planner.route.capitalize() if d05_planner.route else "___") + "  |  Waktu: " + (d05_planner.time.capitalize() if d05_planner.time else "___") + "  |  Samaran: " + (d05_planner.disguise.replace("_", " ").title() if d05_planner.disguise else "___")) size 24 xalign 0.5 color "#f39c12" bold True outlines [(1, "#000", 0, 0)]
+                        spacing 18
+
+                        text "📋 ANALISIS TAKTIK":
+                            size 16 bold True color "#f39c12" xalign 0.5
+                        add Solid("#f39c1266") xsize 270 ysize 1 xalign 0.5
+
+                        ## Efektivitas / Risiko / Kehormatan bars via preview()
+                        $ _prev = d05_planner.preview()
+                        $ _eff, _risk, _hon = _prev
+                        vbox:
+                            spacing 4
+                            hbox:
+                                text "⚡ Efektivitas" size 14 color "#2ecc71" xminimum 160
+                                text ("%d/100" % _eff) size 14 bold True color "#2ecc71"
+                            bar value _eff range 100:
+                                xsize 270 ysize 12
+                                left_bar Solid("#2ecc71") right_bar Solid("#0d2010")
+
+                        vbox:
+                            spacing 4
+                            hbox:
+                                text "🔥 Risiko" size 14 color "#e74c3c" xminimum 160
+                                text ("%d/100" % _risk) size 14 bold True color "#e74c3c"
+                            bar value _risk range 100:
+                                xsize 270 ysize 12
+                                left_bar Solid("#e74c3c") right_bar Solid("#200d0d")
+
+                        vbox:
+                            spacing 4
+                            hbox:
+                                text "🏆 Kehormatan" size 14 color "#f39c12" xminimum 160
+                                text ("%d/100" % _hon) size 14 bold True color "#f39c12"
+                            bar value _hon range 100:
+                                xsize 270 ysize 12
+                                left_bar Solid("#f39c12") right_bar Solid("#201200")
+
+                        add Solid("#f39c1244") xsize 270 ysize 1 xalign 0.5
+
+                        ## Score preview — simulate calculate_score without side effects
+                        $ _score = d05_planner.calculate_score() if d05_planner.is_ready() else 0
+                        frame:
+                            background (Solid("#1a3a1a") if _score >= 35 else (Solid("#1a2a1a") if _score >= 15 else Solid("#1a1010")))
+                            xsize 270 xalign 0.5 padding (14, 12)
+                            vbox:
+                                spacing 6
+                                text "🎯 SKOR OPERASI":
+                                    size 14 bold True color "#7f8c8d" xalign 0.5
+                                text ("%d / 50" % _score if d05_planner.is_ready() else "???"):
+                                    size 36 bold True xalign 0.5
+                                    color ("#2ecc71" if _score >= 35 else ("#f39c12" if _score >= 15 else "#e74c3c"))
+                                    outlines [(2, "#000000", 0, 0)]
+                                if d05_planner.is_ready():
+                                    text ("✦ OPTIMAL" if _score >= 35 else ("✧ LAYAK" if _score >= 15 else "✗ BERISIKO")):
+                                        size 15 bold True xalign 0.5
+                                        color ("#2ecc71" if _score >= 35 else ("#f39c12" if _score >= 15 else "#e74c3c"))
+
+                        add Solid("#f39c1244") xsize 270 ysize 1 xalign 0.5
+
+                        ## Feedback hints
+                        if not d05_planner.route:
+                            text "← Seret kartu JALUR\nke slot merah." size 14 italic True color "#7f8c8d" xalign 0.5 text_align 0.5
+                        elif not d05_planner.time:
+                            text "← Seret kartu WAKTU\nke slot biru." size 14 italic True color "#7f8c8d" xalign 0.5 text_align 0.5
+                        elif not d05_planner.disguise:
+                            text "← Seret kartu SAMARAN\nke slot ungu." size 14 italic True color "#7f8c8d" xalign 0.5 text_align 0.5
+                        else:
+                            text "Semua slot terisi.\nTekan JALANKAN!" size 15 bold True color "#2ecc71" xalign 0.5 text_align 0.5
+
+            ## ── Bottom: Confirm button ────────────────────────────────────────
+            vbox:
+                xalign 0.5
+                yoffset -18
+                yanchor 1.0
+                ypos 770
+                spacing 0
 
                 if d05_planner.is_ready():
-                    textbutton "✓ JALANKAN OPERASI":
+                    textbutton "⚔  JALANKAN OPERASI  ⚔":
                         action [Function(d05_planner.calculate_score), Return(d05_planner)]
                         xalign 0.5
-                        text_size 28
-                        text_bold True
-                        background Solid("#27ae60")
-                        hover_background Solid("#2ecc71")
-                        text_color "#ffffff"
-                        padding (30, 15)
+                        text_size 26 text_bold True text_color "#ffffff"
+                        background Solid("#1e8449")
+                        hover_background Solid("#27ae60")
+                        padding (40, 14)
+                        at float_in
 
 label scene_d05:
-    scene bg 06 with fade
+    scene taktik with fade
     # TODO: Gunakan aset BG asli: BG-06 (Kamp Hutan Tarik - Siang)
     # TODO: Tambahkan Voice Over (VO) narrator
     voice "audio/scene17.mp3"
@@ -699,6 +853,7 @@ label scene_d05:
     # Interaksi Lanjutan setelah Map Puzzle diselesaikan
     narrator "Selain menyusupkan pasukan, siapa yang akan memimpin kelompok barisan terdepan masuk ke jantung istana?"
     
+    scene api with fade
     menu:
         "Hamba siap. Hamba akan menjadi utusan pribadi Tuanku di Kediri. (Konfrontasi)":
             $ konfrontasi += 1
@@ -740,15 +895,15 @@ label scene_d06:
     if siasat > 0:
         # TODO: Tambahkan Voice Over (VO) narrator
         voice "audio/scene22.mp3"
-        narrator "[[Batin] Aku mengamati mereka dengan kalkulasi... dan Nambi selalu dekat dengan kekuasaan tanpa harus berkeringat sepertiku."
+        narrator_batin "Aku mengamati mereka dengan kalkulasi... dan Nambi selalu dekat dengan kekuasaan tanpa harus berkeringat sepertiku."
     elif konfrontasi > 0:
         # TODO: Tambahkan Voice Over (VO) narrator
         voice "audio/scene23.mp3"
-        narrator "[[Batin] Sandiwara ini membuatku muak. Aku tak sabar menarik pedang, apalagi saat melihat mereka percaya begitu saja pada Nambi yang tak teruji."
+        narrator_batin "Sandiwara ini membuatku muak. Aku tak sabar menarik pedang, apalagi saat melihat mereka percaya begitu saja pada Nambi yang tak teruji."
     else:
         # TODO: Tambahkan Voice Over (VO) narrator
         voice "audio/scene24.mp3"
-        narrator "[[Batin] Nambi mendapat kepercayaan luar biasa. Mungkinkah ada logika diplomasi darinya yang belum kupahami?"
+        narrator_batin "Nambi mendapat kepercayaan luar biasa. Mungkinkah ada logika diplomasi darinya yang belum kupahami?"
         
     return
 
@@ -759,7 +914,7 @@ label scene_d06:
 
 label scene_d07:
     if d01_choice == "A":
-        scene bg 03 with fade
+        scene bg taktik with fade
         # TODO: Gunakan aset BG asli: BG-03 (Jalur A) / BG-06 (Jalur B) / BG-02 (Jalur C)
         sembada "Anak Wiraraja? Nelayan-nelayan ini... mereka bukan sekadar nelayan. Mereka telinga Wiraraja di seluruh pesisir Jawa."
         $ kebijakan += 10
@@ -767,7 +922,7 @@ label scene_d07:
         narrator "QUEST SELESAI: Info jaringan rahasia terbuka. (Modal Babak III)"
         
     elif d01_choice == "B":
-        scene bg 06 with fade
+        scene bg taktik with fade
         # TODO: Gunakan aset BG asli: BG-03 (Jalur A) / BG-06 (Jalur B) / BG-02 (Jalur C)
         komandan "Ranggalawe, pasukan mulai ragu akan kemenangan Raden Wijaya..."
         ranggalawe "Kumpulkan mereka. Malam ini aku bicara langsung."
@@ -776,14 +931,14 @@ label scene_d07:
         narrator "QUEST SELESAI: Loyalitas Pasukan Madura kuat."
         
     elif d01_choice == "C":
-        scene bg 02 with fade
+        scene bg taktik with fade
         # TODO: Gunakan aset BG asli: BG-03 (Jalur A) / BG-06 (Jalur B) / BG-02 (Jalur C)
         # TODO: Tambahkan Voice Over (VO) narrator
         narrator "[[Arsip Sumenep] Di antara gulungan tua, ada surat yang tak pernah disebut Wiraraja - ditujukan kepada pihak misterius."
         ranggalawe "Ayahku memainkan lebih banyak papan catur dari yang aku kira."
         $ kebijakan += 15
         # TODO: Tambahkan Voice Over (VO) narrator
-        narrator "ITEM OBT: Surat Ketiga Wiraraja (Modal lawan Ra Galatik nanti)"
+        narrator "Surat Ketiga Wiraraja"
 
     return
 
@@ -792,13 +947,14 @@ label scene_d07:
 # SCENE D08 - KEPUTUSAN BESAR: MANFAATKAN TARTAR
 # ==========================================
 label scene_d08:
-    scene bg 06 with fade
+    scene mongol with fade
     # TODO: Gunakan aset BG asli: BG-06 (Kamp Hutan Tarik - Siang)
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "20.000 prajurit Mongol mendarat menuntut balas pada Kertanegara."
     
     raden "Ini kesempatan. Kita sekutui mereka, gunakan untuk hancurkan Kediri, lalu usir setelah selesai."
     
+    scene mongol with fade
     menu:
         "Tuanku, ini saat yang tak akan datang dua kali. Kita harus bergerak sekarang! (Konfrontasi)":
             $ konfrontasi += 1
@@ -831,8 +987,9 @@ label scene_d08:
 # SCENE D09 - PERSIAPAN PERANG: DUA PERSPEKTIF
 # ==========================================
 label scene_d09:
-    scene bg 06 with fade
-    # TODO: Gunakan aset BG asli: BG-06 & BG-02 (Split Screen)
+    call effect_battle from _call_effect_battle
+    scene expression Movie(play="video/scene1_3.webm", mute=True, size=(1920, 1080)) with fade
+
 
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "[[LAYAR KIRI - KAMP] Ranggalawe melatih prajurit setiap pagi tanpa tidur dua hari."
@@ -841,7 +998,7 @@ label scene_d09:
     
     # TODO: Tambahkan Voice Over (VO) narrator
     narrator "[[LAYAR KANAN - SUMENEP] Wiraraja duduk sendirian, menulis surat terakhir penuh kebohongan untuk Jayakatwang."
-    show arya ambigu at right with dissolve
     arya "Jayakatwang yang terhormat... semoga kamu tidak pernah tahu berapa banyak kebohongan yang aku tulis atas namamu."
     
+    call clear_effects from _call_clear_effects
     return
