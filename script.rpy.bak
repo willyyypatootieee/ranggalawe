@@ -1,0 +1,116 @@
+# Game Variables for Dynamic Branching
+default konfrontasi = 0
+default mediasi = 0
+default siasat = 0
+
+# Trackers for exclusive routes and choices
+default d01_choice = ""
+default d04_choice = ""
+default d08_choice = ""
+default d10_choice = ""
+default d12_choice = ""
+default d15_choice = ""
+default d17_route = ""
+default d17_b_choice = ""
+default d17_c_choice = ""
+default d19_choice = ""
+default d21_choice = ""
+default d23_choice = ""
+default d25_choice = ""
+default d27_choice = ""
+default d29_choice = ""
+default d34_choice = ""
+default d39_choice = ""
+default d23_tempo = ""
+default d29_focus = ""
+
+# Game Flags and Stats
+default keberanian = 0
+default kebijakan = 0
+default kehormatan = 0
+default loyalitas = 0
+default loyalitas_sora = 0
+default loyalitas_prajurit = 0
+
+# Extra state used by later scenes (D10-D40).
+default kemarahan = 0
+default loyalitas_rakyat = 0
+default rakyat_loyal = False
+default dokumen_hukum = False
+default mahapati_letter = False
+default mahapati_letter_given = False
+default nambi_delays_troops = False
+default mahapati_misinformed = False
+default galatik_turned = False
+default has_keris = False
+default keris_given_sora = False
+default keris_state = "NONE"  # NONE | KEEP | SORA
+default d26_pact = False
+default ensik_discovered = []
+
+init python:
+    def unlock_ensik(char_id):
+        if char_id not in store.ensik_discovered:
+            store.ensik_discovered.append(char_id)
+
+    def is_ensik_unlocked(char_id):
+        return char_id in store.ensik_discovered
+
+# The game starts here.
+label start:
+    # ── Babak 1 ──────────────────────────────
+    $ current_chapter = 1
+    $ current_chapter_name = "Lahirnya Seorang Ksatria"
+    call screen chapter_title_card("BABAK I", "Lahirnya Seorang Ksatria")
+    call scene_d01
+    call scene_d02
+    call scene_d03
+    call scene_d04
+    call scene_d05
+    call scene_d06
+    call scene_d07
+    
+    # ── Babak 2 ──────────────────────────────
+    $ current_chapter = 2
+    $ current_chapter_name = "Darah untuk Majapahit"
+    call screen chapter_title_card("BABAK II", "Darah untuk Majapahit")
+    call scene_d08
+    call scene_d09
+
+    # ── Babak 3 – 5 ────────────────────────────
+    $ current_chapter = 3
+    $ current_chapter_name = "Api dalam Dada"
+    call screen chapter_title_card("BABAK III", "Api dalam Dada")
+    call scene_d10
+    call scene_d11
+    call scene_d12
+    call scene_d13
+    call scene_d14
+    call scene_d15
+    call scene_d16
+    call scene_d17
+    call scene_d18
+    call scene_d19
+    call scene_d20
+    call scene_d21
+    call scene_d22
+    call scene_d23
+    call scene_d24
+    call scene_d25
+    call scene_d26
+    call scene_d27
+    call scene_d28
+
+    # ── Epilog ───────────────────────────────
+    call screen epilog_recap
+    call screen chapter_title_card("EPILOG", "Akhir dari Sebuah Nama")
+    call scene_d29
+    call scene_d30
+    call scene_d31
+    call scene_d32
+    call scene_d33
+    call scene_d34
+    call scene_d35
+    
+    return
+
