@@ -22,14 +22,18 @@ image raden_p lelah = Transform("images/raden_p/raden_p lelah.png", zoom=0.55, y
 image raden_p tulus = Transform("images/raden_p/raden_p tulus.png", zoom=0.55, yalign=1.0)
 image raden_p waspada = Transform("images/raden_p/raden_p waspada.png", zoom=0.55, yalign=1.0)
 
-image ranggalawe angry = Transform("images/ranggalawe/ranggalawe angry.png", zoom=0.55, yalign=1.0)
-image ranggalawe determination = Transform("images/ranggalawe/ranggalawe determination.png", zoom=0.55, yalign=1.0)
-image ranggalawe happy = Transform("images/ranggalawe/ranggalawe happy.png", zoom=0.55, yalign=1.0)
-image ranggalawe neutral = Transform("images/ranggalawe/ranggalawe neutral.png", zoom=0.55, yalign=1.0)
-image ranggalawe sad = Transform("images/ranggalawe/ranggalawe sad.png", zoom=0.55, yalign=1.0)
-image ranggalawe shock = Transform("images/ranggalawe/ranggalawe shock.png", zoom=0.55, yalign=1.0)
-image ranggalawe terluka = Transform("images/ranggalawe/ranggalawe terluka.png", zoom=0.55, yalign=1.0)
-image ranggalawe = Transform("ranggalawe neutral", zoom=0.55, yalign=1.0)
+image ranggalawe angry = Transform("images/Ranggalawe/ranggalawe angry.png", zoom=0.55, yalign=1.0)
+image ranggalawe determination = Transform("images/Ranggalawe/ranggalawe determination.png", zoom=0.55, yalign=1.0)
+image ranggalawe happy = Transform("images/Ranggalawe/ranggalawe happy.png", zoom=0.55, yalign=1.0)
+image ranggalawe neutral = Transform("images/Ranggalawe/ranggalawe neutral.png", zoom=0.55, yalign=1.0)
+image ranggalawe sad = Transform("images/Ranggalawe/ranggalawe sad.png", zoom=0.55, yalign=1.0)
+image ranggalawe shock = Transform("images/Ranggalawe/ranggalawe shock.png", zoom=0.55, yalign=1.0)
+image ranggalawe terluka = Transform("images/Ranggalawe/ranggalawe terluka.png", zoom=0.55, yalign=1.0)
+image ranggalawe = Transform("images/Ranggalawe/ranggalawe neutral.png", zoom=0.55, yalign=1.0)
+
+transform speaker_left:
+    xalign 0.05
+    yalign 1.0
 
 # Declare characters used by this game.
 define ranggalawe = Character("Ken Kara / Ranggalawe", color="#c8ffc8")
@@ -94,4 +98,5 @@ image bg_15 = "images/bg/bg 15.jpg"
 image bg_split   = "images/bg/split.jpeg"
 image bg_17      = "images/bg/write.jpeg"
 image bg_writing = "images/bg/writing.jpeg"
+image bg_hutan1  = "images/bg/hutan1.png"
 

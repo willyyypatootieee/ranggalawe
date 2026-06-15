@@ -1,4 +1,4 @@
-﻿## This file contains options that can be changed to customize your game.
+## This file contains options that can be changed to customize your game.
 ##
 ## Lines beginning with two '#' marks are comments, and you shouldn't uncomment
 ## them. Lines beginning with a single '#' mark are commented-out code, and you
@@ -121,6 +121,12 @@ define config.window_hide_transition = Dissolve(.2)
 ## number is the number of characters per second to type out.
 
 default preferences.text_cps = 0
+
+
+## Auto-save frequently so players never lose progress before a choice.
+## 5 = save every 5 checkpoints (dialogue lines / menus).
+define config.autosave_frequency = 5
+define config.autosave_on_quit   = True
 
 
 ## The default auto-forward delay. Larger numbers lead to longer waits, with 0
